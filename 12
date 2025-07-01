@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int N;
+
+// Check if placing a queen at board[row] = col is safe
+int isSafe(int board[10], int row, int col) {
+    for (int i = 0; i < row; i++) {
+        if (board[i] == col || abs(board[i] - col) == abs(i - row))
+            return 0;
+    }
+    return 1;
+}
+
+// Print the board in 'Q' and '*' format
+void print(int board[10]) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (board[i] == j)
+                printf("Q ");
+            else
+                printf("* ");
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+// Solve the N-Queens problem using backtracking
+void solve(int board[10], int row) {
+    if (row == N) {
+        print(board);
+        return;
+    }
+    for (int col = 0; col < N; col++) {
+        if (isSafe(board, row, col)) {
+            board[row] = col;
+            solve(board, row + 1);
+        }
+    }
+}
+
+int main() {
+    int board[10];
+    printf("Enter the number of queens: ");
+    scanf("%d", &N);
+    if (N < 1 || N > 10) {
+        printf("Please enter N between 1 and 10.\n");
+        return 1;
+    }
+    solve(board, 0);
+    return 0;
+}
